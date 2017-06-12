@@ -94,7 +94,7 @@ plt.savefig('output_images/undistortedImage.jpg')
 
 image = mpimg.imread('test_images/test5.jpg')
 
-def pipeline(img, s_thresh=(170, 255), sx_thresh=(20, 100)):
+def threshold(img, s_thresh=(170, 255), sx_thresh=(20, 100)):
     img = np.copy(img)
     # Convert to HSV color space and separate the V channel
     hsv = cv2.cvtColor(img, cv2.COLOR_RGB2HLS).astype(np.float)
@@ -122,7 +122,7 @@ def pipeline(img, s_thresh=(170, 255), sx_thresh=(20, 100)):
     combined_binary[(s_binary == 1) | (sxbinary == 1)] =1
     return combined_binary
 
-result = pipeline(image)
+result = threshold(image)
 
 # Plot the result
 f, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9))
@@ -142,36 +142,47 @@ plt.savefig('output_images/combined_binary.jpg')
 # Perspective Transform
 
 # read in and display original image
-img = mpimg.imread('test_images/test5.jpg')
+img = mpimg.imread('test_images/straight_lines1.jpg')
 plt.imshow(img)
 plt.show()
 
 # Source image points
+imshape = img.shape
 plt.imshow(img)
-plt.plot(805, 500, '.') # top right
-plt.plot(1006, 650, '.') # bottom right
-plt.plot(590, 460, '.') # top left
-plt.plot(300, 700, '.') # bottom left
+plt.plot(700, 443, '.') # top right
+plt.plot(1200, imshape[0], '.') # bottom right
+plt.plot(580, 443, '.') # top left
+plt.plot(150, imshape[0], '.') # bottom left
 
 # In[6]
 # Define perspective transform function
-def warp(img):
+
+# Four source coordinates
+src = np.float32(
+    [[700, 443],
+     [1150, imshape[0]],
+     [580, 443],
+     [164, imshape[0]]])
+
+# Four desired coordinates
+dst = np.float32(
+    [[975, (imshape[0] - imshape[0])],
+     [975, imshape[0]],
+     [300, (imshape[0] - imshape[0])],
+     [300, imshape[0]]])
+
+# def warp(img, src, dst):
+#
+#     # Compute and apply perpective transform
+#     img_size = (img.shape[1], img.shape[0])
+#     M = cv2.getPerspectiveTransform(src, dst)
+#     warped = cv2.warpPerspective(img, M, img_size, flags=cv2.INTER_NEAREST)  # keep same size as input image
+#
+#     return warped
+
+def warp(img, src, dst):
     # Define calibration box in source (original) and destination (desired or warped) coordinates
     img_size = (img.shape[1], img.shape[0])
-
-    # Four source coordinates
-    src = np.float32(
-        [[805, 500],
-         [1006, 650],
-         [590, 460],
-         [300, 700]])
-
-    # Four desired coordinates
-    dst = np.float32(
-        [[900, 150],
-         [1000, 600],
-         [400, 150],
-         [350, 725]])
 
     # Compute the perspective transform, M
     M = cv2.getPerspectiveTransform(src, dst)
@@ -184,9 +195,11 @@ def warp(img):
 
     return warped
 
+
+
 # In[7]
 # Get perspective transform
-warped_im = warp(img)
+warped_im = warp(img, src, dst)
 
 # Visualize undistortion
 f, (ax1, ax2) = plt.subplots(1,2, figsize=(20,10))
@@ -195,3 +208,57 @@ ax1.set_title('Source image')
 ax1.imshow(img)
 ax2.set_title('Warped image')
 ax2.imshow(warped_im)
+plt.savefig('output_images/perspectiveTransform.jpg')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# In[8]
+# Test all steps so far
+img = mpimg.imread('test_images/test6.jpg')
+# plt.imshow(img)
+
+# undistort with camera calibration
+undistorted = cal_undistort(img, objpoints, imgpoints)
+# plt.imshow(undistorted)
+
+# Color/Gradient Thresholding
+threshold_img = threshold(undistorted)
+# plt.imshow(threshold_img, cmap = plt.get_cmap('gray'))
+
+# perspective transform
+warped_im = warp(threshold_img, src, dst)
+
+undistorted = cal_undistort(warped_im, objpoints, imgpoints)
+plt.imshow(undistorted, cmap = plt.get_cmap('gray'))
