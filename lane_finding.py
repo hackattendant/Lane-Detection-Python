@@ -5,6 +5,7 @@ import cv2
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import glob
+%matplotlib inline
 
 
 # In[1]
@@ -201,7 +202,7 @@ plt.imshow(img)
 plt.plot(681, 444, '.') # top right
 plt.plot(1200, imshape[0], '.') # bottom right
 plt.plot(598, 444, '.') # top left
-plt.plot(150, imshape[0], '.') # bottom left
+plt.plot(200, imshape[0], '.') # bottom left
 
 
 
@@ -222,7 +223,7 @@ src = np.float32(
     [[681, 444],
      [1200, imshape[0]],
      [598, 444],
-     [150, imshape[0]]])
+     [200, imshape[0]]])
 
 # Four desired coordinates
 dst = np.float32(
@@ -282,7 +283,7 @@ plt.savefig('output_images/perspectiveTransform.jpg')
 
 # In[8]
 # Test all steps so far
-img = mpimg.imread('test_images/test2.jpg')
+img = mpimg.imread('test_images/straight_lines1.jpg')
 # plt.imshow(img)
 
 # undistort with camera calibration
@@ -382,6 +383,9 @@ righty = nonzeroy[right_lane_inds]
 left_fit = np.polyfit(lefty, leftx, 2)
 right_fit = np.polyfit(righty, rightx, 2)
 
+
+
+
 # In[10]
 
 # Visualize
@@ -428,6 +432,14 @@ right_fit = np.polyfit(righty, rightx, 2)
 ploty = np.linspace(0, binary_warped.shape[0]-1, binary_warped.shape[0] )
 left_fitx = left_fit[0]*ploty**2 + left_fit[1]*ploty + left_fit[2]
 right_fitx = right_fit[0]*ploty**2 + right_fit[1]*ploty + right_fit[2]
+
+
+
+
+
+
+
+
 
 
 
@@ -556,3 +568,37 @@ class Line():
         self.allx = None
         #y values for detected line pixels
         self.ally = None
+
+# In[16]
+def draw_images(image):
+
+    # Drawing on Images
+
+    warped = image
+
+    # Create an image to draw the lines on
+    warp_zero = np.zeros_like(warped).astype(np.uint8)
+    color_warp = np.dstack((warp_zero, warp_zero, warp_zero))
+
+    # Recast the x and y points into usable format for cv2.fillPoly()
+    pts_left = np.array([np.transpose(np.vstack([left_fitx, ploty]))])
+    pts_right = np.array([np.flipud(np.transpose(np.vstack([right_fitx, ploty])))])
+    pts = np.hstack((pts_left, pts_right))
+
+    # Draw the lane onto the warped blank image
+    cv2.fillPoly(color_warp, np.int_([pts]), (0,255, 0))
+
+    # Warp the blank back to original image space using inverse perspective matrix (Minv)
+    newwarp = cv2.warpPerspective(color_warp, Minv, (image.shape[1], image.shape[0]))
+    # Combine the result with the original image
+    result = cv2.addWeighted(undistorted, 1, newwarp, 0.3, 0)
+    plt.imshow(result)
+
+    return result
+
+
+# In[17]
+from moviepy.editor import VideoFileClip
+from IPython.display import HTML
+
+draw_images(warped_im)
