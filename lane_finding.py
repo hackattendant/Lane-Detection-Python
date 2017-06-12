@@ -49,4 +49,13 @@ for fname in images:
         # Draw and display the corners
         img = cv2.drawChessboardCorners(img, (9,6), corners, ret)
         plt.imshow(img)
-        plt.savefig('draw_corners/' + str(fname))
+        plt.savefig('output_images/draw_corners/' + str(fname))
+        plt.savefig('output_images/cornersDrawnOn.jpg')
+# In[2]
+# Undistort image
+def cal_undistort(img, objpoints, imgpoints):
+    ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.shape[::-1], None, None)
+    undist = cv2.undistort(img, mtx, dist, None, mtx)
+    return undist
+
+undistorted = cal_undistort(img, objpoints, imgpoints)
