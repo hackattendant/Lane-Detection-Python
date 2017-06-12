@@ -18,6 +18,18 @@ img = mpimg.imread('camera_cal/calibration2.jpg')
 plt.imshow(img)
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 # In[2]
 # Arrays to store object points and image points from all the images
 
@@ -62,6 +74,24 @@ for fname in images:
         # # define 4 destination
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # In[3]
 # Undistort image
 def cal_undistort(img, objpoints, imgpoints):
@@ -82,6 +112,16 @@ ax2.imshow(undistorted)
 ax2.set_title('Undistorted Image', fontsize=50)
 plt.subplots_adjust(left=0., right=1, top=0.9, bottom=0.)
 plt.savefig('output_images/undistortedImage.jpg')
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -137,6 +177,15 @@ plt.subplots_adjust(left=0., right=1, top=0.9, bottom=0.)
 plt.savefig('output_images/combined_binary.jpg')
 
 
+
+
+
+
+
+
+
+
+
 # In[5]
 
 # Perspective Transform
@@ -153,6 +202,17 @@ plt.plot(681, 444, '.') # top right
 plt.plot(1200, imshape[0], '.') # bottom right
 plt.plot(598, 444, '.') # top left
 plt.plot(150, imshape[0], '.') # bottom left
+
+
+
+
+
+
+
+
+
+
+
 
 # In[6]
 # Define perspective transform function
@@ -197,6 +257,9 @@ def warp(img, src, dst):
 
 
 
+
+
+
 # In[7]
 # Get perspective transform
 warped_im = warp(img, src, dst)
@@ -209,6 +272,11 @@ ax1.imshow(img)
 ax2.set_title('Warped image')
 ax2.imshow(warped_im)
 plt.savefig('output_images/perspectiveTransform.jpg')
+
+
+
+
+
 
 
 
@@ -330,3 +398,111 @@ plt.plot(right_fitx, ploty, color='yellow')
 plt.xlim(0, 1280)
 plt.ylim(720, 0)
 plt.savefig('output_images/FindingLaneLines_SlidingWindow.jpg')
+
+
+
+
+
+
+
+# In[11]
+## Assume you now have a new warped binary image
+# from the next frame of video (also called "binary_warped")
+# It's now much easier to find line pixels!
+nonzero = binary_warped.nonzero()
+nonzeroy = np.array(nonzero[0])
+nonzerox = np.array(nonzero[1])
+margin = 100
+left_lane_inds = ((nonzerox > (left_fit[0]*(nonzeroy**2) + left_fit[1]*nonzeroy + left_fit[2] - margin)) & (nonzerox < (left_fit[0]*(nonzeroy**2) + left_fit[1]*nonzeroy + left_fit[2] + margin)))
+right_lane_inds = ((nonzerox > (right_fit[0]*(nonzeroy**2) + right_fit[1]*nonzeroy + right_fit[2] - margin)) & (nonzerox < (right_fit[0]*(nonzeroy**2) + right_fit[1]*nonzeroy + right_fit[2] + margin)))
+
+# Again, extract left and right line pixel positions
+leftx = nonzerox[left_lane_inds]
+lefty = nonzeroy[left_lane_inds]
+rightx = nonzerox[right_lane_inds]
+righty = nonzeroy[right_lane_inds]
+# Fit a second order polynomial to each
+left_fit = np.polyfit(lefty, leftx, 2)
+right_fit = np.polyfit(righty, rightx, 2)
+# Generate x and y values for plotting
+ploty = np.linspace(0, binary_warped.shape[0]-1, binary_warped.shape[0] )
+left_fitx = left_fit[0]*ploty**2 + left_fit[1]*ploty + left_fit[2]
+right_fitx = right_fit[0]*ploty**2 + right_fit[1]*ploty + right_fit[2]
+
+
+
+
+# In[12]
+#Visualize
+# Create an image to draw on and an image to show the selection window
+out_img = np.dstack((binary_warped, binary_warped, binary_warped))*255
+window_img = np.zeros_like(out_img)
+# Color in left and right line pixels
+out_img[nonzeroy[left_lane_inds], nonzerox[left_lane_inds]] = [255, 0, 0]
+out_img[nonzeroy[right_lane_inds], nonzerox[right_lane_inds]] = [0, 0, 255]
+
+# Generate a polygon to illustrate the search window area
+# And recast the x and y points into usable format for cv2.fillPoly()
+left_line_window1 = np.array([np.transpose(np.vstack([left_fitx-margin, ploty]))])
+left_line_window2 = np.array([np.flipud(np.transpose(np.vstack([left_fitx+margin, ploty])))])
+left_line_pts = np.hstack((left_line_window1, left_line_window2))
+right_line_window1 = np.array([np.transpose(np.vstack([right_fitx-margin, ploty]))])
+right_line_window2 = np.array([np.flipud(np.transpose(np.vstack([right_fitx+margin, ploty])))])
+right_line_pts = np.hstack((right_line_window1, right_line_window2))
+
+# Draw the lane onto the warped blank image
+cv2.fillPoly(window_img, np.int_([left_line_pts]), (0,255, 0))
+cv2.fillPoly(window_img, np.int_([right_line_pts]), (0,255, 0))
+result = cv2.addWeighted(out_img, 1, window_img, 0.3, 0)
+plt.imshow(result)
+plt.plot(left_fitx, ploty, color='yellow')
+plt.plot(right_fitx, ploty, color='yellow')
+plt.xlim(0, 1280)
+plt.ylim(720, 0)
+plt.savefig('output_images/SkipSlidingWindowStep.jpg')
+
+
+
+
+
+# In[13]
+
+# Measuring Curvature
+# Generate some fake data to represent lane-line pixels
+ploty = np.linspace(0, 719, num=720)# to cover same y-range as image
+quadratic_coeff = 3e-4 # arbitrary quadratic coefficient
+# For each y position generate random x position within +/-50 pix
+# of the line base position in each case (x=200 for left, and x=900 for right)
+leftx = np.array([200 + (y**2)*quadratic_coeff + np.random.randint(-50, high=51)
+                              for y in ploty])
+rightx = np.array([900 + (y**2)*quadratic_coeff + np.random.randint(-50, high=51)
+                                for y in ploty])
+
+leftx = leftx[::-1]  # Reverse to match top-to-bottom in y
+rightx = rightx[::-1]  # Reverse to match top-to-bottom in y
+
+
+# Fit a second order polynomial to pixel positions in each fake lane line
+left_fit = np.polyfit(ploty, leftx, 2)
+left_fitx = left_fit[0]*ploty**2 + left_fit[1]*ploty + left_fit[2]
+right_fit = np.polyfit(ploty, rightx, 2)
+right_fitx = right_fit[0]*ploty**2 + right_fit[1]*ploty + right_fit[2]
+
+# Plot up the fake data
+mark_size = 3
+plt.plot(leftx, ploty, 'o', color='red', markersize=mark_size)
+plt.plot(rightx, ploty, 'o', color='blue', markersize=mark_size)
+plt.xlim(0, 1280)
+plt.ylim(0, 720)
+plt.plot(left_fitx, ploty, color='green', linewidth=3)
+plt.plot(right_fitx, ploty, color='green', linewidth=3)
+plt.gca().invert_yaxis() # to visualize as we do the images
+
+
+# Calculate the radius of Curvature
+# Define y-value where we want radius of curvature
+# I'll choose the maximum y-value, corresponding to the bottom of the image
+y_eval = np.max(ploty)
+left_curverad = ((1 + (2*left_fit[0]*y_eval + left_fit[1])**2)**1.5) / np.absolute(2*left_fit[0])
+right_curverad = ((1 + (2*right_fit[0]*y_eval + right_fit[1])**2)**1.5) / np.absolute(2*right_fit[0])
+print(left_curverad, right_curverad)
