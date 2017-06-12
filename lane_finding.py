@@ -1,12 +1,11 @@
 # In[0]
 #Imports
-
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import glob
-%matplotlib inline
+
 
 # In[1]
 # Compute the camera calibration matrix and distortion coefficents
@@ -51,6 +50,16 @@ for fname in images:
         plt.imshow(img)
         plt.savefig('output_images/draw_corners/' + str(fname))
         plt.savefig('output_images/cornersDrawnOn.jpg')
+
+        # Choose offset from image corners to plot detected cornersDrawnOn
+        # offset = 100 # offset for dst points
+        # # Grab image shape
+        # img_size = (gray.shape[1], gray.shape[0])
+        #
+        # # define 4 source points
+        # src = np.float32([corners[0], corners[9 -1], corners[-1], corners[-9]])
+        #
+        # # define 4 destination
 
 
 # In[3]
@@ -126,3 +135,63 @@ ax2.imshow(result, cmap = plt.get_cmap('gray'))
 ax2.set_title('Combined S channel and gradient thresholds', fontsize=40)
 plt.subplots_adjust(left=0., right=1, top=0.9, bottom=0.)
 plt.savefig('output_images/combined_binary.jpg')
+
+
+# In[5]
+
+# Perspective Transform
+
+# read in and display original image
+img = mpimg.imread('test_images/test5.jpg')
+plt.imshow(img)
+plt.show()
+
+# Source image points
+plt.imshow(img)
+plt.plot(805, 500, '.') # top right
+plt.plot(1006, 650, '.') # bottom right
+plt.plot(590, 460, '.') # top left
+plt.plot(300, 700, '.') # bottom left
+
+# In[6]
+# Define perspective transform function
+def warp(img):
+    # Define calibration box in source (original) and destination (desired or warped) coordinates
+    img_size = (img.shape[1], img.shape[0])
+
+    # Four source coordinates
+    src = np.float32(
+        [[805, 500],
+         [1006, 650],
+         [590, 460],
+         [300, 700]])
+
+    # Four desired coordinates
+    dst = np.float32(
+        [[900, 150],
+         [1000, 600],
+         [400, 150],
+         [350, 725]])
+
+    # Compute the perspective transform, M
+    M = cv2.getPerspectiveTransform(src, dst)
+
+    # Could compute the inverse also by swapping the input parameeters
+    Minv = cv2.getPerspectiveTransform(dst, src)
+
+    # Create warped image - uses linear interpolation
+    warped = cv2.warpPerspective(img, M, img_size, flags=cv2.INTER_LINEAR)
+
+    return warped
+
+# In[7]
+# Get perspective transform
+warped_im = warp(img)
+
+# Visualize undistortion
+f, (ax1, ax2) = plt.subplots(1,2, figsize=(20,10))
+
+ax1.set_title('Source image')
+ax1.imshow(img)
+ax2.set_title('Warped image')
+ax2.imshow(warped_im)
