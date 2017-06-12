@@ -159,7 +159,7 @@ plt.plot(150, imshape[0], '.') # bottom left
 
 # Four source coordinates
 src = np.float32(
-    [[700, 443],
+    [[700, 450],
      [1150, imshape[0]],
      [580, 443],
      [164, imshape[0]]])
@@ -212,41 +212,9 @@ plt.savefig('output_images/perspectiveTransform.jpg')
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # In[8]
 # Test all steps so far
-img = mpimg.imread('test_images/test6.jpg')
+img = mpimg.imread('test_images/straight_lines1.jpg')
 # plt.imshow(img)
 
 # undistort with camera calibration
@@ -259,6 +227,6 @@ threshold_img = threshold(undistorted)
 
 # perspective transform
 warped_im = warp(threshold_img, src, dst)
+plt.imshow(warped_im, cmap = plt.get_cmap('gray'))
 
-undistorted = cal_undistort(warped_im, objpoints, imgpoints)
-plt.imshow(undistorted, cmap = plt.get_cmap('gray'))
+plt.savefig('output_images/undistort+threshold+perspectiveTransform.jpg')
