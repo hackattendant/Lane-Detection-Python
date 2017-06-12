@@ -123,5 +123,6 @@ ax1.imshow(image)
 ax1.set_title('Original Image', fontsize=40)
 
 ax2.imshow(result, cmap = plt.get_cmap('gray'))
-ax2.set_title('Pipeline Result', fontsize=40)
+ax2.set_title('Combined S channel and gradient thresholds', fontsize=40)
 plt.subplots_adjust(left=0., right=1, top=0.9, bottom=0.)
+plt.savefig('output_images/combined_binary.jpg')
