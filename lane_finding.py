@@ -8,35 +8,19 @@ import glob
 %matplotlib inline
 
 
-# In[1]
-# Compute the camera calibration matrix and distortion coefficents
-
+# In[1]  # Compute the camera calibration matrix and distortion coefficents
 # Read in and make a list of calibration images
 images = glob. glob('camera_cal/calibration*.jpg')
 
 # Read in a calibration image
 img = mpimg.imread('camera_cal/calibration2.jpg')
-plt.imshow(img)
+# plt.imshow(img)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-# In[2]
-# Arrays to store object points and image points from all the images
+# In[2]  # Arrays to store object points and image points from all the images
 
 objpoints = [] # #D points in real world space
 imgpoints = [] # 2D points in image plane
-
 
 # Prepare object points, like (0,0,0), (1,0,0), (2,0,0), ....., (7,5,0) for points on chessboard
 objp = np.zeros((6*9,3), np.float32)
@@ -60,9 +44,9 @@ for fname in images:
 
         # Draw and display the corners
         img = cv2.drawChessboardCorners(img, (9,6), corners, ret)
-        plt.imshow(img)
-        plt.savefig('output_images/draw_corners/' + str(fname))
-        plt.savefig('output_images/cornersDrawnOn.jpg')
+        # plt.imshow(img)
+        # plt.savefig('output_images/draw_corners/' + str(fname))
+        # plt.savefig('output_images/cornersDrawnOn.jpg')
 
         # Choose offset from image corners to plot detected cornersDrawnOn
         # offset = 100 # offset for dst points
@@ -76,71 +60,38 @@ for fname in images:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# In[3]
-# Undistort image
+# In[3]  # Undistort image
 def cal_undistort(img, objpoints, imgpoints):
     ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.shape[::-1], None, None)
     undist = cv2.undistort(img, mtx, dist, None, mtx)
     return undist
 
 distorted_img = mpimg.imread('camera_cal/calibration1.jpg')
-
 undistorted = cal_undistort(distorted_img, objpoints, imgpoints)
 
-# Visualize results of undistortion
-f, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9))
-f.tight_layout()
-ax1.imshow(distorted_img)
-ax1.set_title('Original Image', fontsize=50)
-ax2.imshow(undistorted)
-ax2.set_title('Undistorted Image', fontsize=50)
-plt.subplots_adjust(left=0., right=1, top=0.9, bottom=0.)
-plt.savefig('output_images/undistortedImage.jpg')
+## Visualize results of undistortion
+# f, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9))
+# f.tight_layout()
+# ax1.imshow(distorted_img)
+# ax1.set_title('Original Image', fontsize=50)
+# ax2.imshow(undistorted)
+# ax2.set_title('Undistorted Image', fontsize=50)
+# plt.subplots_adjust(left=0., right=1, top=0.9, bottom=0.)
+# plt.savefig('output_images/undistortedImage.jpg')
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-# In[4]
-
-# Combine Color and gradient thresholds for lane detection
-
+# In[4]  # Combine Color and gradient thresholds for lane detection
 image = mpimg.imread('test_images/test5.jpg')
 
 def threshold(img, s_thresh=(170, 255), sx_thresh=(20, 100)):
     img = np.copy(img)
+
     # Convert to HSV color space and separate the V channel
     hsv = cv2.cvtColor(img, cv2.COLOR_RGB2HLS).astype(np.float)
     l_channel = hsv[:,:,1]
     s_channel = hsv[:,:,2]
+
     # Sobel x
     sobelx = cv2.Sobel(l_channel, cv2.CV_64F, 1, 0) # Take the derivative in x
     abs_sobelx = np.absolute(sobelx) # Absolute x derivative to accentuate lines away from horizontal
@@ -165,58 +116,40 @@ def threshold(img, s_thresh=(170, 255), sx_thresh=(20, 100)):
 
 result = threshold(image)
 
-# Plot the result
-f, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9))
-f.tight_layout()
-
-ax1.imshow(image)
-ax1.set_title('Original Image', fontsize=40)
-
-ax2.imshow(result, cmap = plt.get_cmap('gray'))
-ax2.set_title('Combined S channel and gradient thresholds', fontsize=40)
-plt.subplots_adjust(left=0., right=1, top=0.9, bottom=0.)
-plt.savefig('output_images/combined_binary.jpg')
-
-
+# # Plot the result
+# f, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9))
+# f.tight_layout()
+#
+# ax1.imshow(image)
+# ax1.set_title('Original Image', fontsize=40)
+#
+# ax2.imshow(result, cmap = plt.get_cmap('gray'))
+# ax2.set_title('Combined S channel and gradient thresholds', fontsize=40)
+# plt.subplots_adjust(left=0., right=1, top=0.9, bottom=0.)
+# plt.savefig('output_images/combined_binary.jpg')
 
 
 
 
 
-
-
-
-
-# In[5]
-
-# Perspective Transform
-
+# In[5]  # Perspective Transform
 # read in and display original image
 img = mpimg.imread('test_images/straight_lines1.jpg')
-plt.imshow(img)
-plt.show()
+# plt.imshow(img)
+# plt.show()
 
-# Source image points
-imshape = img.shape
-plt.imshow(img)
-plt.plot(681, 444, '.') # top right
-plt.plot(1200, imshape[0], '.') # bottom right
-plt.plot(598, 444, '.') # top left
-plt.plot(200, imshape[0], '.') # bottom left
-
-
+# # Source image points
+# imshape = img.shape
+# plt.imshow(img)
+# plt.plot(681, 444, '.') # top right
+# plt.plot(1200, imshape[0], '.') # bottom right
+# plt.plot(598, 444, '.') # top left
+# plt.plot(200, imshape[0], '.') # bottom left
 
 
 
 
-
-
-
-
-
-
-# In[6]
-# Define perspective transform function
+# In[6]  # Define perspective transform function
 
 # Four source coordinates
 src = np.float32(
@@ -259,30 +192,26 @@ def warp(img, src, dst):
 
 
 
-
-
-# In[7]
-# Get perspective transform
+# In[7]  # Get perspective transform
 warped_im = warp(img, src, dst)
 
-# Visualize undistortion
-f, (ax1, ax2) = plt.subplots(1,2, figsize=(20,10))
-
-ax1.set_title('Source image')
-ax1.imshow(img)
-ax2.set_title('Warped image')
-ax2.imshow(warped_im)
-plt.savefig('output_images/perspectiveTransform.jpg')
-
-
+# # Visualize undistortion
+# f, (ax1, ax2) = plt.subplots(1,2, figsize=(20,10))
+#
+# ax1.set_title('Source image')
+# ax1.imshow(img)
+# ax2.set_title('Warped image')
+# ax2.imshow(warped_im)
+# plt.savefig('output_images/perspectiveTransform.jpg')
 
 
 
 
 
 
-# In[8]
-# Test all steps so far
+
+
+# In[8]  # Test all steps so far
 img = mpimg.imread('test_images/straight_lines1.jpg')
 # plt.imshow(img)
 
@@ -296,20 +225,13 @@ threshold_img = threshold(undistorted)
 
 # perspective transform
 warped_im = warp(threshold_img, src, dst)
-plt.imshow(warped_im, cmap = plt.get_cmap('gray'))
+#plt.imshow(warped_im, cmap = plt.get_cmap('gray'))
 
 plt.savefig('output_images/undistort+threshold+perspectiveTransform.jpg')
 
 
 
-
-
-
-
-
-
-# In[9]
-# Lane Finding
+# In[9]  # Lane Finding
 
 # Locate lane lines and fit a polynomial
 
@@ -385,32 +307,24 @@ right_fit = np.polyfit(righty, rightx, 2)
 
 
 
-
-# In[10]
-
-# Visualize
-# Generate x and y values for plotting
-ploty = np.linspace(0, binary_warped.shape[0]-1, binary_warped.shape[0] )
-left_fitx = left_fit[0]*ploty**2 + left_fit[1]*ploty + left_fit[2]
-right_fitx = right_fit[0]*ploty**2 + right_fit[1]*ploty + right_fit[2]
-
-out_img[nonzeroy[left_lane_inds], nonzerox[left_lane_inds]] = [255, 0, 0]
-out_img[nonzeroy[right_lane_inds], nonzerox[right_lane_inds]] = [0, 0, 255]
-plt.imshow(out_img)
-plt.plot(left_fitx, ploty, color='yellow')
-plt.plot(right_fitx, ploty, color='yellow')
-plt.xlim(0, 1280)
-plt.ylim(720, 0)
-plt.savefig('output_images/FindingLaneLines_SlidingWindow.jpg')
+# In[10]  # Visualize
+# # Generate x and y values for plotting
+# ploty = np.linspace(0, binary_warped.shape[0]-1, binary_warped.shape[0] )
+# left_fitx = left_fit[0]*ploty**2 + left_fit[1]*ploty + left_fit[2]
+# right_fitx = right_fit[0]*ploty**2 + right_fit[1]*ploty + right_fit[2]
+#
+# out_img[nonzeroy[left_lane_inds], nonzerox[left_lane_inds]] = [255, 0, 0]
+# out_img[nonzeroy[right_lane_inds], nonzerox[right_lane_inds]] = [0, 0, 255]
+# plt.imshow(out_img)
+# plt.plot(left_fitx, ploty, color='yellow')
+# plt.plot(right_fitx, ploty, color='yellow')
+# plt.xlim(0, 1280)
+# plt.ylim(720, 0)
+# plt.savefig('output_images/FindingLaneLines_SlidingWindow.jpg')
 
 
 
-
-
-
-
-# In[11]
-## Assume you now have a new warped binary image
+# In[11]  ## Assume you now have a new warped binary image
 # from the next frame of video (also called "binary_warped")
 # It's now much easier to find line pixels!
 nonzero = binary_warped.nonzero()
@@ -435,17 +349,7 @@ right_fitx = right_fit[0]*ploty**2 + right_fit[1]*ploty + right_fit[2]
 
 
 
-
-
-
-
-
-
-
-
-
-# In[12]
-#Visualize
+# In[12]  #Visualize
 # Create an image to draw on and an image to show the selection window
 out_img = np.dstack((binary_warped, binary_warped, binary_warped))*255
 window_img = np.zeros_like(out_img)
@@ -462,23 +366,23 @@ right_line_window1 = np.array([np.transpose(np.vstack([right_fitx-margin, ploty]
 right_line_window2 = np.array([np.flipud(np.transpose(np.vstack([right_fitx+margin, ploty])))])
 right_line_pts = np.hstack((right_line_window1, right_line_window2))
 
-# Draw the lane onto the warped blank image
-cv2.fillPoly(window_img, np.int_([left_line_pts]), (0,255, 0))
-cv2.fillPoly(window_img, np.int_([right_line_pts]), (0,255, 0))
-result = cv2.addWeighted(out_img, 1, window_img, 0.3, 0)
-plt.imshow(result)
-plt.plot(left_fitx, ploty, color='yellow')
-plt.plot(right_fitx, ploty, color='yellow')
-plt.xlim(0, 1280)
-plt.ylim(720, 0)
-plt.savefig('output_images/SkipSlidingWindowStep.jpg')
+# # Draw the lane onto the warped blank image
+# cv2.fillPoly(window_img, np.int_([left_line_pts]), (0,255, 0))
+# cv2.fillPoly(window_img, np.int_([right_line_pts]), (0,255, 0))
+# result = cv2.addWeighted(out_img, 1, window_img, 0.3, 0)
+# plt.imshow(result)
+# plt.plot(left_fitx, ploty, color='yellow')
+# plt.plot(right_fitx, ploty, color='yellow')
+# plt.xlim(0, 1280)
+# plt.ylim(720, 0)
+# plt.savefig('output_images/SkipSlidingWindowStep.jpg')
 
 
 
 
 
 # In[13]
-
+"""
 # Measuring Curvature
 # Generate some fake data to represent lane-line pixels
 ploty = np.linspace(0, 719, num=720)# to cover same y-range as image
@@ -567,8 +471,9 @@ class Line():
         #x values for detected line pixels
         self.allx = None
         #y values for detected line pixels
-        self.ally = None
 
+        self.ally = None
+"""
 # In[16]
 def draw_images(image):
 
@@ -583,12 +488,13 @@ def draw_images(image):
     # Recast the x and y points into usable format for cv2.fillPoly()
     pts_left = np.array([np.transpose(np.vstack([left_fitx, ploty]))])
     pts_right = np.array([np.flipud(np.transpose(np.vstack([right_fitx, ploty])))])
-    pts = np.hstack((pts_left, pts_right))
+    pts = np. hstack((pts_left, pts_right))
 
     # Draw the lane onto the warped blank image
     cv2.fillPoly(color_warp, np.int_([pts]), (0,255, 0))
 
     # Warp the blank back to original image space using inverse perspective matrix (Minv)
+    Minv = cv2.getPerspectiveTransform(dst,src)
     newwarp = cv2.warpPerspective(color_warp, Minv, (image.shape[1], image.shape[0]))
     # Combine the result with the original image
     result = cv2.addWeighted(undistorted, 1, newwarp, 0.3, 0)
@@ -598,7 +504,6 @@ def draw_images(image):
 
 
 # In[17]
-from moviepy.editor import VideoFileClip
-from IPython.display import HTML
+
 
 draw_images(warped_im)
