@@ -205,32 +205,6 @@ warped_im = warp(img, src, dst)
 # plt.savefig('output_images/perspectiveTransform.jpg')
 
 
-
-
-
-
-
-
-# In[8]  # Test all steps so far
-img = mpimg.imread('test_images/straight_lines1.jpg')
-# plt.imshow(img)
-
-# undistort with camera calibration
-undistorted = cal_undistort(img, objpoints, imgpoints)
-# plt.imshow(undistorted)
-
-# Color/Gradient Thresholding
-threshold_img = threshold(undistorted)
-# plt.imshow(threshold_img, cmap = plt.get_cmap('gray'))
-
-# perspective transform
-warped_im = warp(threshold_img, src, dst)
-#plt.imshow(warped_im, cmap = plt.get_cmap('gray'))
-
-plt.savefig('output_images/undistort+threshold+perspectiveTransform.jpg')
-
-
-
 # In[9]  # Lane Finding
 
 # Locate lane lines and fit a polynomial
@@ -379,9 +353,6 @@ right_line_pts = np.hstack((right_line_window1, right_line_window2))
 
 
 
-
-
-
 # In[16]
 def draw_images(image):
 
@@ -415,3 +386,25 @@ def draw_images(image):
 
 
 draw_images(warped_im)
+
+
+
+# In[8]  # Test all steps so far
+img = mpimg.imread('test_images/test2.jpg')
+# plt.imshow(img)
+
+# undistort with camera calibration
+undistorted = cal_undistort(img, objpoints, imgpoints)
+# plt.imshow(undistorted)
+
+# Color/Gradient Thresholding
+threshold_img = threshold(undistorted)
+# plt.imshow(threshold_img, cmap = plt.get_cmap('gray'))
+
+# perspective transform
+warped_im = warp(threshold_img, src, dst)
+plt.imshow(warped_im, cmap = plt.get_cmap('gray'))
+
+plt.savefig('output_images/undistort+threshold+perspectiveTransform.jpg')
+
+# Detect Lane lines
