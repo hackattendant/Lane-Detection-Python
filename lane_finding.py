@@ -138,13 +138,13 @@ img = mpimg.imread('test_images/straight_lines1.jpg')
 # plt.imshow(img)
 # plt.show()
 
-# # Source image points
-# imshape = img.shape
-# plt.imshow(img)
-# plt.plot(681, 444, '.') # top right
-# plt.plot(1200, imshape[0], '.') # bottom right
-# plt.plot(598, 444, '.') # top left
-# plt.plot(200, imshape[0], '.') # bottom left
+# Source image points
+imshape = img.shape
+plt.imshow(img)
+plt.plot(681, 444, '.') # top right
+plt.plot(1200, imshape[0], '.') # bottom right
+plt.plot(598, 444, '.') # top left
+plt.plot(200, imshape[0], '.') # bottom left
 
 
 
@@ -333,7 +333,10 @@ def lane_finding(warped_im):
     # # Color in left and right line pixels
     # out_img[nonzeroy[left_lane_inds], nonzerox[left_lane_inds]] = [255, 0, 0]
     # out_img[nonzeroy[right_lane_inds], nonzerox[right_lane_inds]] = [0, 0, 255]
-    #
+
+
+
+
     # # Generate a polygon to illustrate the search window area
     # # And recast the x and y points into usable format for cv2.fillPoly()
     # left_line_window1 = np.array([np.transpose(np.vstack([left_fitx-margin, ploty]))])
@@ -353,18 +356,8 @@ def lane_finding(warped_im):
     # plt.xlim(0, 1280)
     # plt.ylim(720, 0)
     # plt.savefig('output_images/SkipSlidingWindowStep.jpg')
-
-
-    return out_img
-
-
-# In[16]
-def draw_images(image):
-
-    # Drawing on Images
-
-    warped = image
-
+    #
+    #
     # Create an image to draw the lines on
     warp_zero = np.zeros_like(warped).astype(np.uint8)
     color_warp = np.dstack((warp_zero, warp_zero, warp_zero))
@@ -386,11 +379,39 @@ def draw_images(image):
 
     return result
 
+# # In[16]
+# def draw_images(image):
+#
+#     # Drawing on Images
+#
+#     warped = image
+#
+#     # Create an image to draw the lines on
+#     warp_zero = np.zeros_like(warped).astype(np.uint8)
+#     color_warp = np.dstack((warp_zero, warp_zero, warp_zero))
+#
+#     # Recast the x and y points into usable format for cv2.fillPoly()
+#     pts_left = np.array([np.transpose(np.vstack([left_fitx, ploty]))])
+#     pts_right = np.array([np.flipud(np.transpose(np.vstack([right_fitx, ploty])))])
+#     pts = np. hstack((pts_left, pts_right))
+#
+#     # Draw the lane onto the warped blank image
+#     cv2.fillPoly(color_warp, np.int_([pts]), (0,255, 0))
+#
+#     # Warp the blank back to original image space using inverse perspective matrix (Minv)
+#     Minv = cv2.getPerspectiveTransform(dst,src)
+#     newwarp = cv2.warpPerspective(color_warp, Minv, (image.shape[1], image.shape[0]))
+#     # Combine the result with the original image
+#     result = cv2.addWeighted(undistorted, 1, newwarp, 0.3, 0)
+#     plt.imshow(result)
+#
+#     return result
+
 
 # In[17]
 
 
-draw_images(warped_im)
+# draw_images(warped_im)
 
 
 
@@ -416,24 +437,24 @@ plt.savefig('output_images/undistort+threshold+perspectiveTransform.jpg')
 foundlanes = lane_finding(warped)
 
 
-# Draw
-
-# Create an image to draw the lines on
-warp_zero = np.zeros_like(warped).astype(np.uint8)
-color_warp = np.dstack((warp_zero, warp_zero, warp_zero))
-
-# Recast the x and y points into usable format for cv2.fillPoly()
-pts_left = np.array([np.transpose(np.vstack([left_fitx, ploty]))])
-pts_right = np.array([np.flipud(np.transpose(np.vstack([right_fitx, ploty])))])
-pts = np.hstack((pts_left, pts_right))
-
-# Draw the lane onto the warped blank image
-cv2.fillPoly(color_warp, np.int_([pts]), (0,255, 0))
-
-# Warp the blank back to original image space using inverse perspective matrix (Minv)
-# Could compute the inverse also by swapping the input parameeters
-Minv = cv2.getPerspectiveTransform(dst, src)
-newwarp = cv2.warpPerspective(color_warp, Minv, (image.shape[1], image.shape[0]))
-# Combine the result with the original image
-result = cv2.addWeighted(undistorted, 1, newwarp, 0.3, 0)
-plt.imshow(result)
+# # Draw
+#
+# # Create an image to draw the lines on
+# warp_zero = np.zeros_like(warped).astype(np.uint8)
+# color_warp = np.dstack((warp_zero, warp_zero, warp_zero))
+#
+# # Recast the x and y points into usable format for cv2.fillPoly()
+# pts_left = np.array([np.transpose(np.vstack([left_fitx, ploty]))])
+# pts_right = np.array([np.flipud(np.transpose(np.vstack([right_fitx, ploty])))])
+# pts = np.hstack((pts_left, pts_right))
+#
+# # Draw the lane onto the warped blank image
+# cv2.fillPoly(color_warp, np.int_([pts]), (0,255, 0))
+#
+# # Warp the blank back to original image space using inverse perspective matrix (Minv)
+# # Could compute the inverse also by swapping the input parameeters
+# Minv = cv2.getPerspectiveTransform(dst, src)
+# newwarp = cv2.warpPerspective(color_warp, Minv, (image.shape[1], image.shape[0]))
+# # Combine the result with the original image
+# result = cv2.addWeighted(undistorted, 1, newwarp, 0.3, 0)
+# plt.imshow(result)
