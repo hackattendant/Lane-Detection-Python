@@ -435,6 +435,8 @@ plt.savefig('output_images/undistort+threshold+perspectiveTransform.jpg')
 
 # Detect Lane lines
 foundlanes = lane_finding(warped)
+plt.imshow(foundlanes)
+plt.savefig("output_images/foundLanes.jpg")
 
 
 # # Draw
