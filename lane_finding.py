@@ -14,7 +14,7 @@ images = glob. glob('camera_cal/calibration*.jpg')
 
 # Read in a calibration image
 img = mpimg.imread('camera_cal/calibration2.jpg')
-# plt.imshow(img)
+plt.imshow(img)
 
 
 # In[2]  # Arrays to store object points and image points from all the images
@@ -44,19 +44,19 @@ for fname in images:
 
         # Draw and display the corners
         img = cv2.drawChessboardCorners(img, (9,6), corners, ret)
-        # plt.imshow(img)
-        # plt.savefig('output_images/draw_corners/' + str(fname))
-        # plt.savefig('output_images/cornersDrawnOn.jpg')
+        plt.imshow(img)
+        plt.savefig('output_images/draw_corners/' + str(fname))
+        plt.savefig('output_images/cornersDrawnOn.jpg')
 
         # Choose offset from image corners to plot detected cornersDrawnOn
-        # offset = 100 # offset for dst points
-        # # Grab image shape
-        # img_size = (gray.shape[1], gray.shape[0])
-        #
-        # # define 4 source points
-        # src = np.float32([corners[0], corners[9 -1], corners[-1], corners[-9]])
-        #
-        # # define 4 destination
+        offset = 100 # offset for dst points
+        # Grab image shape
+        img_size = (gray.shape[1], gray.shape[0])
+
+        # define 4 source points
+        src = np.float32([corners[0], corners[9 -1], corners[-1], corners[-9]])
+
+        # define 4 destination
 
 
 
@@ -69,21 +69,19 @@ def cal_undistort(img, objpoints, imgpoints):
 distorted_img = mpimg.imread('camera_cal/calibration1.jpg')
 undistorted = cal_undistort(distorted_img, objpoints, imgpoints)
 
-## Visualize results of undistortion
-# f, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9))
-# f.tight_layout()
-# ax1.imshow(distorted_img)
-# ax1.set_title('Original Image', fontsize=50)
-# ax2.imshow(undistorted)
-# ax2.set_title('Undistorted Image', fontsize=50)
-# plt.subplots_adjust(left=0., right=1, top=0.9, bottom=0.)
-# plt.savefig('output_images/undistortedImage.jpg')
+# Visualize results of undistortion
+f, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9))
+f.tight_layout()
+ax1.imshow(distorted_img)
+ax1.set_title('Original Image', fontsize=50)
+ax2.imshow(undistorted)
+ax2.set_title('Undistorted Image', fontsize=50)
+plt.subplots_adjust(left=0., right=1, top=0.9, bottom=0.)
+plt.savefig('output_images/undistortedImage.jpg')
 
 
 
 # In[4]  # Combine Color and gradient thresholds for lane detection
-image = mpimg.imread('test_images/test5.jpg')
-
 def threshold(img, s_thresh=(170, 255), sx_thresh=(20, 100)):
     img = np.copy(img)
 
@@ -114,29 +112,31 @@ def threshold(img, s_thresh=(170, 255), sx_thresh=(20, 100)):
     combined_binary[(s_binary == 1) | (sxbinary == 1)] =1
     return combined_binary
 
+image = mpimg.imread('test_images/test5.jpg')
 result = threshold(image)
+plt.imshow(result, cmap = plt.get_cmap('gray'))
 
-# # Plot the result
-# f, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9))
-# f.tight_layout()
-#
-# ax1.imshow(image)
-# ax1.set_title('Original Image', fontsize=40)
-#
-# ax2.imshow(result, cmap = plt.get_cmap('gray'))
-# ax2.set_title('Combined S channel and gradient thresholds', fontsize=40)
-# plt.subplots_adjust(left=0., right=1, top=0.9, bottom=0.)
-# plt.savefig('output_images/combined_binary.jpg')
+# Plot the result
+f, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 9))
+f.tight_layout()
+
+ax1.imshow(image)
+ax1.set_title('Original Image', fontsize=40)
+
+ax2.imshow(result, cmap = plt.get_cmap('gray'))
+ax2.set_title('Combined S channel and gradient thresholds', fontsize=40)
+plt.subplots_adjust(left=0., right=1, top=0.9, bottom=0.)
+plt.savefig('output_images/combined_binary.jpg')
 
 
 
 
 
 # In[5]  # Perspective Transform
-# read in and display original image
+#read in and display original image
 img = mpimg.imread('test_images/straight_lines1.jpg')
-# plt.imshow(img)
-# plt.show()
+plt.imshow(img)
+plt.show()
 
 # Source image points
 imshape = img.shape
@@ -152,11 +152,7 @@ plt.plot(200, imshape[0], '.') # bottom left
 # In[6]  # Define perspective transform function
 
 # Four source coordinates
-src = np.float32(
-    [[681, 444],
-     [1200, imshape[0]],
-     [598, 444],
-     [200, imshape[0]]])
+src = np.float32([[681, 444], [1200, imshape[0]], [598, 444], [200, imshape[0]]])
 
 # Four desired coordinates
 dst = np.float32(
@@ -193,7 +189,7 @@ def warp(img, src, dst):
 
 # In[7]  # Get perspective transform
 warped_im = warp(img, src, dst)
-
+plt.imshow(warped_im)
 # # Visualize undistortion
 # f, (ax1, ax2) = plt.subplots(1,2, figsize=(20,10))
 #
@@ -375,7 +371,7 @@ def lane_finding(warped_im):
     newwarp = cv2.warpPerspective(color_warp, Minv, (image.shape[1], image.shape[0]))
     # Combine the result with the original image
     result = cv2.addWeighted(undistorted, 1, newwarp, 0.3, 0)
-    plt.imshow(result)
+    # plt.imshow(result)
 
     return result
 
@@ -415,48 +411,65 @@ def lane_finding(warped_im):
 
 
 
-# In[8]  # Test all steps so far
-img = mpimg.imread('test_images/test2.jpg')
-# plt.imshow(img)
-
-# undistort with camera calibration
-undistorted = cal_undistort(img, objpoints, imgpoints)
-# plt.imshow(undistorted)
-
-# Color/Gradient Thresholding
-threshold_img = threshold(undistorted)
-# plt.imshow(threshold_img, cmap = plt.get_cmap('gray'))
-
-# perspective transform
-warped = warp(threshold_img, src, dst)
-# plt.imshow(warped_im, cmap = plt.get_cmap('gray'))
-
-plt.savefig('output_images/undistort+threshold+perspectiveTransform.jpg')
-
-# Detect Lane lines
-foundlanes = lane_finding(warped)
-plt.imshow(foundlanes)
-plt.savefig("output_images/foundLanes.jpg")
-
-
-# # Draw
+# # In[8]  # Test all steps so far
+# img = mpimg.imread('test_images/test5.jpg')
+# # plt.imshow(img)
 #
-# # Create an image to draw the lines on
-# warp_zero = np.zeros_like(warped).astype(np.uint8)
-# color_warp = np.dstack((warp_zero, warp_zero, warp_zero))
+# # undistort with camera calibration
+# undistorted = cal_undistort(img, objpoints, imgpoints)
+# # plt.imshow(undistorted)
 #
-# # Recast the x and y points into usable format for cv2.fillPoly()
-# pts_left = np.array([np.transpose(np.vstack([left_fitx, ploty]))])
-# pts_right = np.array([np.flipud(np.transpose(np.vstack([right_fitx, ploty])))])
-# pts = np.hstack((pts_left, pts_right))
+# # Color/Gradient Thresholding
+# threshold_img = threshold(undistorted)
+# # plt.imshow(threshold_img, cmap = plt.get_cmap('gray'))
 #
-# # Draw the lane onto the warped blank image
-# cv2.fillPoly(color_warp, np.int_([pts]), (0,255, 0))
+# # perspective transform
+# warped = warp(threshold_img, src, dst)
+# # plt.imshow(warped_im, cmap = plt.get_cmap('gray'))
 #
-# # Warp the blank back to original image space using inverse perspective matrix (Minv)
-# # Could compute the inverse also by swapping the input parameeters
-# Minv = cv2.getPerspectiveTransform(dst, src)
-# newwarp = cv2.warpPerspective(color_warp, Minv, (image.shape[1], image.shape[0]))
-# # Combine the result with the original image
-# result = cv2.addWeighted(undistorted, 1, newwarp, 0.3, 0)
-# plt.imshow(result)
+# plt.savefig('output_images/undistort+threshold+perspectiveTransform.jpg')
+#
+# # Detect Lane lines
+# foundlanes = lane_finding(warped)
+# plt.imshow(foundlanes)
+# plt.savefig("output_images/foundLanes.jpg")
+
+
+
+
+
+# In[18]  # Test on video
+# Improt everything needed to edit/save/watch video clips
+from moviepy.editor import VideoFileClip
+from IPython.display import HTML
+
+# def process_image(image):
+#
+#     # Read in image
+#     read_img = mpimg.imread(image)
+#
+#     # undistort with camera calibration
+#     undistorted = cal_undistort(read_img, objpoints, imgpoints)
+#
+#     # Color/Gradient Thresholding
+#     threshold_img = threshold(undistorted)
+#
+#     # perspective transform
+#     warped = warp(threshold_img, src, dst)
+#
+#     # Detect Lane lines
+#     foundlanes = lane_finding(warped)
+#     plt.imshow(foundlanes)
+#
+#
+
+# process_image("test_images/straight_lines1.jpg")
+
+# REad in image
+image = 'test_images/straight_lines1.jpg'
+read_img = mpimg.imread(image)
+plt.imshow(read_img)
+
+# undistort
+undistorted = cal_undistort(image, objpoints, imgpoints)
+plt.show(undistorted)
