@@ -75,6 +75,9 @@ here's a side by side:
 ![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/threshold.jpg)
 
 ### 3. I applied a mask after the binary image was created
+
+the code for creating a polygonal mask can be seen in block 12.
+
 here you can see the binary-masked image:
 
 ![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/4mask.jpg)
@@ -93,5 +96,16 @@ Here is the binary-masked image after it has been warped:
 
 ![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/5perspectivewarp.jpg)
 
+
+
+### 5. identify lane pixels in warped image
+
+Here you can see sliding windows used in the lane finding process:
+
+![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/slidingWindow.jpg)
+
+![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/SkipSlidingWindow.jpg)
+
+![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/6Stepthrough.jpg)
 
 
