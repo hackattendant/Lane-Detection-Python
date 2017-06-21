@@ -104,7 +104,7 @@ Here you can see sliding windows used in the lane finding process:
 
 ![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/slidingWindow.jpg)
 
-![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/skipSlidingWindow.jpg)
+![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/SkipSlidingWindowStep.jpg)
 
 ![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/6Stepthrough.jpg)
 
