@@ -24,7 +24,7 @@ The images for camera calibration are stored in the folder called `camera_cal`. 
 
 ## Camera Calibration
 
-The code for this step is contained in the third code cell of the IPython notebook.
+The code for this step is contained in the 3rd code cell of the IPython notebook.
 
 I start by preparing "object points", which will be the (x, y, z) coordinates of the chessboard corners in the
 world. Here I am assuming the chessboard is fixed on the (x, y) plane at z=0, such that the object points are
@@ -48,6 +48,7 @@ I did this so it would be quicker to run and the need to recalibrate each time w
 ### 1. Distortion Correction
 #### Has the distortion correction been correctly applied to each image?
 
+The code for undistorting can be seen in cell 2
 To demonstrate this step, I will describe how I apply the distortion correction to one of the test images like this
 one: 
 
@@ -65,7 +66,7 @@ Here's a side by side:
 
 ### 2. Has a binary image been created using color transforms, gradients or other methods?
 
-I created a combined binary image using color and gradient thresholding as seen here
+I created a combined binary image using color and gradient thresholding in cell 5, as seen here
 
 ![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/3threhsold.jpg)
 
@@ -74,9 +75,13 @@ here's a side by side:
 ![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/threshold.jpg)
 
 
+### 3. Has a perspective transform been applied to rectify the image?
 
+The code for my perspective transform includes a function called warp() , which appears in block 9 of the IPython file, 
+Advanced-Lane_lines (Advanced-Lane-Lines.ipynb)The warp() function takes as inputs an image ( img ). I chose the hardcode the source and destination points which can be seen in cell 8 of the jupyter notebook.  
 
+Here are the source points plotted:
 
-
+![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/srcPointsPlotted.jpg)
 
 
