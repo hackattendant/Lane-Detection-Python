@@ -114,7 +114,7 @@ Here you can see sliding windows used in the lane finding process:
 
 ### 1. Does the pipeline established with the test images work to process the video?
 
-It sure does! Here's a link to my video result:  (https://github.com/peacockethan/CarND-Advanced-Lane-Lines-P4/blob/master/project_video.mp4 "Google's Homepage")
+It sure does! Here's a link to my video result:  (https://github.com/peacockethan/CarND-Advanced-Lane-Lines-P4/blob/master/project_video.mp4)
 
 ## README
 
