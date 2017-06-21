@@ -19,10 +19,10 @@ The goals / steps of this project are the following:
 The images for camera calibration are stored in the folder called `camera_cal`.  The images in `test_images` are for testing your pipeline on single frames.  If you want to extract more test images from the videos, you can simply use an image writing method like `cv2.imwrite()`, i.e., you can read the video in frame by frame as usual, and for frames you want to save for later you can write to an image file.  
 
 
-Ruberic Points
+# uberic Points
 ---
 
-Camera Calibration
+## Camera Calibration
 
 The code for this step is contained in the third code cell of the IPython notebook.
 
@@ -38,6 +38,13 @@ image using the cv2.undistort() function and obtained this result:
 
 ![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/undistortedImage.jpg)
 
-I save objpoints, imgpoints, mtx, and dist in a pickle file for later use.
+I save objpoints, imgpoints, mtx, and dist in a pickle named wide_dst_pickle.p file for later use.
 I did this so it would be quicker to run and the need to recalibrate each time would not be necessary.
+
+
+## Pipeline
+
+
+1. Distortion Correction
+
 
