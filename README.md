@@ -89,6 +89,9 @@ Here are the source points plotted:
 
 ![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/srcPointsPlotted.jpg)
 
-Here is 
+Here is the binary-masked image after it has been warped:
+
+![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/5perspectivewarp.jpg)
+
 
 
