@@ -48,5 +48,12 @@ I did this so it would be quicker to run and the need to recalibrate each time w
 ### 1. Distortion Correction
 #### Has the distortion correction been correctly applied to each image?
 
+To demonstrate this step, I will describe how I apply the distortion correction to one of the test images like this
+one: 
+
+![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/1initial_img.jpg)
+
+
+
 
 
