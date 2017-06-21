@@ -67,7 +67,7 @@ Here's a side by side:
 
 I created a combined binary image using color and gradient thresholding as seen here
 
-![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/3threshold.jpg)
+![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/3threhsold.jpg)
 
 here's a side by side:
 
