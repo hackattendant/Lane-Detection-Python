@@ -55,7 +55,7 @@ one:
 
 Image after undistort:
 
-![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/undistort.jpg)
+![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/2undistort.jpg)
 
 Here's a side by side:
 
