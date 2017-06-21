@@ -108,4 +108,24 @@ Here you can see sliding windows used in the lane finding process:
 
 ![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/6Stepthrough.jpg)
 
+---
+
+## Pipeline (video)
+
+### 1. Does the pipeline established with the test images work to process the video?
+
+It sure does! Here's a link to my video result:  (https://github.com/peacockethan/CarND-Advanced-Lane-Lines-P4/blob/master/project_video.mp4 "Google's Homepage")
+
+## README
+
+### 1. Has a README file been included that describes in detail the steps taken to construct the pipeline, techniques used, areas where improvements could be made?
+
+You're reading it!
+
+
+# Discussion
+
+The approach I followed is very closely to what we did as examples in the lessons.  My solution so far is far form perfect.  A big area that it fails so far is when there is not a wide space available infront of the camera.  Meaning a road that does not have a substantial length and width across.  Every technique I used mostly came from opencv.  Ways I think it can be improved would possibly be trying other color spaces, and refining, possibly, a shorter src and mask polygon.  For the most part it works very well on the easiest video to process.
+
+
 
