@@ -74,8 +74,13 @@ here's a side by side:
 
 ![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/threshold.jpg)
 
+### 3. I applied a mask after the binary image was created
+here you can see the binary-masked image:
 
-### 3. Has a perspective transform been applied to rectify the image?
+![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/4mask.jpg)
+
+
+### 4. Has a perspective transform been applied to rectify the image?
 
 The code for my perspective transform includes a function called warp() , which appears in block 9 of the IPython file, 
 Advanced-Lane_lines (Advanced-Lane-Lines.ipynb)The warp() function takes as inputs an image ( img ). I chose the hardcode the source and destination points which can be seen in cell 8 of the jupyter notebook.  
@@ -83,5 +88,7 @@ Advanced-Lane_lines (Advanced-Lane-Lines.ipynb)The warp() function takes as inpu
 Here are the source points plotted:
 
 ![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/srcPointsPlotted.jpg)
+
+Here is 
 
 
