@@ -19,7 +19,7 @@ The goals / steps of this project are the following:
 The images for camera calibration are stored in the folder called `camera_cal`.  The images in `test_images` are for testing your pipeline on single frames.  If you want to extract more test images from the videos, you can simply use an image writing method like `cv2.imwrite()`, i.e., you can read the video in frame by frame as usual, and for frames you want to save for later you can write to an image file.  
 
 
-# uberic Points
+# Ruberic Points
 ---
 
 ## Camera Calibration
@@ -45,6 +45,8 @@ I did this so it would be quicker to run and the need to recalibrate each time w
 ## Pipeline
 
 
-1. Distortion Correction
+### 1. Distortion Correction
+#### Has the distortion correction been correctly applied to each image?
+
 
 
