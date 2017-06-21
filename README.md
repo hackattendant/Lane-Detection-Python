@@ -36,7 +36,7 @@ I then used the output objpoints and imgpoints to compute the camera calibration
 coefficients using the cv2.calibrateCamera() function. I applied this distortion correction to the test
 image using the cv2.undistort() function and obtained this result:
 
-![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/undistortedImage.jpg)
+![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/undistorted.jpg)
 
 I save objpoints, imgpoints, mtx, and dist in a pickle named wide_dst_pickle.p file for later use.
 I did this so it would be quicker to run and the need to recalibrate each time would not be necessary.
@@ -52,6 +52,7 @@ To demonstrate this step, I will describe how I apply the distortion correction 
 one: 
 
 ![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/1nitial_img.jpg)
+
 
 
 
