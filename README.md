@@ -53,6 +53,23 @@ one:
 
 ![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/1nitial_img.jpg)
 
+Image after undistort:
+
+![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/undistort.jpg)
+
+Here's a side by side:
+
+![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/undistorted_test_img.jpg)
+
+
+
+### 2. Has a binary image been created using color transforms, gradients or other methods?
+
+I created a combined binary image using color and gradient thresholding as seen here
+
+![alt text](https://raw.githubusercontent.com/peacockethan/CarND-Advanced-Lane-Lines-P4/master/output_images/1nitial_img.jpg)
+
+
 
 
 
