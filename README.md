@@ -125,7 +125,7 @@ You're reading it!
 
 # Discussion
 
-The approach I followed is very closely to what we did as examples in the lessons.  My solution so far is far form perfect.  A big area that it fails so far is when there is not a wide space available infront of the camera.  Meaning a road that does not have a substantial length and width across.  Every technique I used mostly came from opencv.  Ways I think it can be improved would possibly be trying other color spaces, and refining, possibly, a shorter src and mask polygon.  For the most part it works very well on the easiest video to process.
+The approach I followed is very close to what we did as examples in the lessons.  My solution so far is far form perfect.  A big area that it fails so far is when there is not a wide space available infront of the camera.  Meaning a road that does not have a substantial length and width across.  Every technique I used mostly came from opencv.  Ways I think it can be improved would possibly be trying other color spaces, and refining, possibly, a shorter src and mask polygon.  For the most part it works very well on the easiest video to process.
 
 
 
